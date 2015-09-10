@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'delegate'
 
 module DdrAux::Client
   class Connection < SimpleDelegator
