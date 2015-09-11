@@ -1,5 +1,5 @@
 module DdrAux::Client
-  class License
+  class GetLicense
 
     def self.call(id)
       Connection.call("/licenses/#{id}")
