@@ -1,28 +1,44 @@
+require "uri"
+require_relative "api/model"
+require_relative "api/license"
+require_relative "api/admin_set"
+
 module DdrAux::Client
   module Api
 
-    def license(arg)
-      if arg.respond_to?(:to_h)
-        find_license(**(arg.to_h))
-      else
-        get_license(arg)
+    MODELS = {
+      license: License,
+      admin_set: AdminSet,
+    }.freeze
+
+    MODELS.each do |key, klass|
+      # get_license(id) => License.get(id)
+      define_method "get_#{key}" do |id|
+        klass.get(id)
       end
-    end
 
-    def get_license(id)
-      require_relative "api/get_license"
-      GetLicense.call(id)
-    end
+      # get_licenses => License.list
+      # licenses => License.list
+      define_method "get_#{key}s" do
+        klass.list
+      end
+      alias_method "#{key}s", "get_#{key}s"
 
-    def get_licenses
-      require_relative "api/get_licenses"
-      GetLicenses.call
-    end
-    alias_method :licenses, :get_licenses
+      # find_license(**args) => License.find(**args)
+      define_method "find_#{key}" do |args|
+        klass.find **args
+      end
 
-    def find_license(**args)
-      require_relative "api/find_license"
-      FindLicense.call(**args)
+      # license(arg)
+      # => find_license(**(arg.to_h))
+      # => get_license(arg)
+      define_method key do |arg|
+        if arg.respond_to?(:to_h)
+          send "find_#{key}", **(arg.to_h)
+        else
+          send "get_#{key}", arg
+        end
+      end
     end
 
   end
