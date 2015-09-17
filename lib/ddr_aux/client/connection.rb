@@ -1,6 +1,5 @@
-require 'net/http'
-require 'json'
-require 'delegate'
+require "net/http"
+require "delegate"
 
 module DdrAux::Client
   class Connection < SimpleDelegator
@@ -10,29 +9,18 @@ module DdrAux::Client
     end
 
     def initialize
-      conn = Net::HTTP.new(uri.host, uri.port)
+      uri = DdrAux::Client.uri
+      super Net::HTTP.new(uri.host, uri.port)
       if uri.scheme == "https"
-        conn.use_ssl = true
-        conn.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        self.use_ssl = true
+        self.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
-      super conn
     end
 
     def get_response(relative_path)
-      path = uri.path + relative_path
-      res = get(path, request_headers)
-      res.value # raises exception if not 2XX response code
-      JSON.parse(res.body)
-    end
-
-    private
-
-    def uri
-      URI(DdrAux::Client.api_url)
-    end
-
-    def request_headers
-      {"Accept"=>"application/json"}
+      warn "[DEPRECATION] `get_response` is deprecated and will be removed from ddr-aux-client 2.0." \
+           " Use `DdrAux::Client::Request.get_response` instead."
+      Request.get_response(relative_path)
     end
 
   end

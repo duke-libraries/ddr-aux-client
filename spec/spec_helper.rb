@@ -1,5 +1,3 @@
-ENV["DDR_AUX_API_URL"] ||= "http://127.0.0.1:3030/api"
-
 require "ddr_aux/client"
 require "rspec/its"
 

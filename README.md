@@ -20,7 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+See [API](https://github.com/duke-libraries/ddr-aux-client/wiki/API).
+
+Configure the ddr-aux API URL via the `DDR_AUX_API_URL` environment variable, or by using the attribute setter:
+
+```ruby
+DdrAux::Client.api_url = "http://localhost:3000/api"
+```
 
 ## Development
 

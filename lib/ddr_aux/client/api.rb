@@ -1,31 +1,29 @@
-require "uri"
-require_relative "api/model"
-require_relative "api/license"
-require_relative "api/admin_set"
-
 module DdrAux::Client
   module Api
 
     MODELS = {
-      license: License,
-      admin_set: AdminSet,
+      license: "License",
+      admin_set: "AdminSet",
     }.freeze
 
-    MODELS.each do |key, klass|
+    MODELS.each do |key, class_name|
       # get_license(id) => License.get(id)
       define_method "get_#{key}" do |id|
+        klass = const_get(class_name, false)
         klass.get(id)
       end
 
       # get_licenses => License.list
       # licenses => License.list
       define_method "get_#{key}s" do
+        klass = const_get(class_name, false)
         klass.list
       end
       alias_method "#{key}s", "get_#{key}s"
 
       # find_license(**args) => License.find(**args)
       define_method "find_#{key}" do |args|
+        klass = const_get(class_name, false)
         klass.find **args
       end
 
