@@ -14,9 +14,11 @@ module DdrAux::Client
     DEFAULT_TIMESTAMPS = [:created_at, :updated_at].freeze
 
     class << self
-
       attr_accessor :path
-      private :path=
+
+      def inherited(subclass)
+        subclass.path = path
+      end
 
       def coerce_timestamps!(*keys)
         if keys.empty?
