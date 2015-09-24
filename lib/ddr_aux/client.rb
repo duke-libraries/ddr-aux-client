@@ -5,6 +5,7 @@ module DdrAux
     autoload :AdminSet,   "ddr_aux/client/admin_set"
     autoload :Api,        "ddr_aux/client/api"
     autoload :Connection, "ddr_aux/client/connection"
+    autoload :Contact,    "ddr_aux/client/contact"
     autoload :License,    "ddr_aux/client/license"
     autoload :Model,      "ddr_aux/client/model"
     autoload :Request,    "ddr_aux/client/request"
