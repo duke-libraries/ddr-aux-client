@@ -1,6 +1,5 @@
 require "uri"
 require "hashie"
-require "delegate"
 require "time"
 
 module DdrAux::Client
